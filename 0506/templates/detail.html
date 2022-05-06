@@ -37,23 +37,43 @@
             margin: auto;
         }
     </style>
-
-    <!-- script-->
     <script>
-				// pw check는 편의상 client에서 진행.
-        function checkPw()
-        {
+        $(document).ready(function () {
+            $("#update").hide();
+        });
+        function checkPw() {
             let pw = $("#post-pw").val();
-            if(pw === '{{ post.pw }}') {
-                deleteArticle();
-            }
-            else {
+            if (pw === '{{ article.pw }}') {
+                showArticle();
+            } else {
                 alert("비밀번호가 다릅니다!")
             }
         }
 
-        function deleteArticle() {
+        function showArticle() {
+            $("#pw").hide();
+            $("#post-title").val('{{ article.title }}');
+            $("#post-content").val('{{ article.content }}');
+            $("#update").show();
+        }
 
+        function updateArticle() {
+            // todo
+        }
+
+        function deleteArticle() {
+            $.ajax({
+                type: "DELETE",
+                url: `/article?idx={{ article.idx }}`,
+                success: function (response) { // 성공하면
+                    if (response["result"] == "success") {
+                        alert("삭제 성공!");
+                        window.location.href = '/'
+                    } else {
+                        alert("서버 오류!");
+                    }
+                }
+            })
         }
     </script>
 
@@ -62,15 +82,29 @@
 <body>
 <div class="wrap">
     <div class="jumbotron">
-        <h1 class="display-4"> {{ post.idx }} {{ post.title }} 삭제!</h1>
+        <h1 class="display-4"> 비밀번호를 입력하세요! </h1>
         <hr class="my-4">
         <p class="lead">
+        <div id="pw">
             <div class="form-group">
                 <label for="post-pw">비밀번호</label>
                 <input type="password" id="post-pw" class="form-control" placeholder="">
             </div>
             <button onclick="checkPw()" id="btn-post-box" type="button" class="btn btn-primary">비밀번호 확인
             </button>
+        </div>
+        <div id="update">
+            <div class="form-group">
+                <label for="post-title">제목</label>
+                <input id="post-title" class="form-control" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="post-content">간단한 내용</label>
+                <textarea id="post-content" class="form-control" rows="2"></textarea>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="updateArticle()">수정</button>
+            <button type="button" class="btn btn-danger" onclick="deleteArticle()">삭제</button>
+        </div>
         </p>
     </div>
 </div>

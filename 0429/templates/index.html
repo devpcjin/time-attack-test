@@ -97,33 +97,29 @@
                 success: function (response) {
                     let posts = response['posts']
                     for (let i = 0; i < posts.length; i++) {
-                        // let title = posts[i]['idx']
-                        let title = posts[i]['title']
-                        let date = posts[i]['reg_date']
-
-
-                        let temp_html = `<tr>
-                                            <td>#</td>
-                                            <td>${title}</td>
-                                            <td>${date}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-danger">삭제</button>
-                                            </td>
-                                        </tr>`
-                        $('#list-post').append(temp_html)
+                        makeListPost(posts[i]);
                     }
                 }
             })
-            makeListPost(a, b);
+
         }
 
-        function makeListPost(post, index) {
-            let tempHtml = // todo
-                $("#list-post").append(tempHtml);
+        function makeListPost(post) {
+
+            let tempHtml = `<tr>
+                                <td>${post['idx']}</td>
+                                <td>${post['title']}</td>
+                                <td>${post['reg_date']}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" onclick="detailArticle(${idx})">삭제</button>
+                                </td>
+                            </tr>`
+            $("#list-post").append(tempHtml);
+
         }
 
         function detailArticle(idx) {
-            // todo
+            window.location.href = `/detail/${idx}`
         }
     </script>
 

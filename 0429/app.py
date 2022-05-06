@@ -15,6 +15,7 @@ def index():
 
 @app.route('/detail/<idx>')
 def detail(idx):
+
     return render_template("detail.html")
 
 @app.route('/post', methods=['POST'])
@@ -23,15 +24,18 @@ def save_post():
     pw_receive = request.form['pw_give']
     content_receive = request.form['content_give']
 
-    today = datetime.now()
-    mytime = today.strftime("%Y-%m-%d-%H:%M:%S")
+    idx_count = db.memo.estimated_document_count({})
+    if idx_count == 0:
+        idx = 1
+    else:
+        idx = db.memo.find_one(sort=[("idx",-1)])['idx']+1
 
     doc = {
-        # 'idx':'',
+        'idx':idx,
         'title':title_receive,
         'pw':pw_receive,
         'content':content_receive,
-        'reg_date':mytime
+        'reg_date':datetime.now()
     }
     db.memo.insert_one(doc)
 
