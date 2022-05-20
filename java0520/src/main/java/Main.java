@@ -41,8 +41,8 @@ abstract class Player {
         // TODO
         System.out.println(name);
         System.out.println("----------------------------------------");
-        for(int i = 0; i <fightList.size();i++){
-            System.out.println((i+1)+" : "+fightList.get(i));
+        for (int i = 0; i < fightList.size(); i++) {
+            System.out.println((i + 1) + " : " + fightList.get(i));
         }
         System.out.println("----------------------------------------");
     }
@@ -55,23 +55,39 @@ class PlayerATeam extends Player {
 
     @Override
     public void play(String number) throws Exception {
+        if (number.length() != 4) {
+            throw new Exception("Invalid input(length 4). The opportunity passes to the next team.");
+        }
+
+        final String REGEX = "[0-9]+";
+        if (number.matches(REGEX) == false) {
+            throw new Exception("Invalid input(Only Numeric). The opportunity passes to the next team.");
+        }
+
+        for (int i = 0; i < 3; i++) {
+            for (int k = i + 1; k < 4; k++) {
+                if (number.charAt(i) == number.charAt(k)) {
+                    throw new Exception("Invalid input(same number).The opportunity passes to the next team.");
+                }
+            }
+        }
+
         int strike = 0;
         int ball = 0;
         int out = 0;
 
         // TODO
-        for (int i = 0; i < getInitNumber().length(); i++) {
+        for (int i = 0; i < 4; i++) {
             if (getInitNumber().charAt(i) == number.charAt(i)) {
                 strike++;
             } else {
-                if (number.indexOf(getInitNumber().charAt(i)) == -1) {
-                    ball++;
-                } else {
+                if (number.indexOf(getInitNumber().charAt(i)) != -1) {
                     out++;
+                } else {
+                    ball++;
                 }
             }
         }
-        addFightList(number);
 
         if (strike == 4) {
             System.out.println("Congratulation!");
@@ -79,6 +95,7 @@ class PlayerATeam extends Player {
         } else {
             System.out.println("Strike : " + strike + ", Ball :" + ball + ", Out: " + out);
         }
+        addFightList(number + " : Strike : " + strike + ", Ball : " + ball + ", Out: " + out);
     }
 }
 
@@ -89,6 +106,7 @@ class PlayerBTeam extends Player {
 
     @Override
     public void play(String number) throws Exception {
+
         int strike = 0;
         int ball = 0;
         int out = 0;
@@ -98,16 +116,13 @@ class PlayerBTeam extends Player {
             if (getInitNumber().charAt(i) == number.charAt(i)) {
                 ball++;
             } else {
-                if (number.indexOf(getInitNumber().charAt(i)) == -1) {
-                    strike++;
-                } else {
+                if (number.indexOf(getInitNumber().charAt(i)) != -1) {
                     out++;
+                } else {
+                    strike++;
                 }
             }
         }
-
-        addFightList(number);
-
 
         if (ball == 4) {
             System.out.println("Congratulation!");
@@ -115,6 +130,8 @@ class PlayerBTeam extends Player {
         } else {
             System.out.println("Strike : " + strike + ", Ball :" + ball + ", Out: " + out);
         }
+
+        addFightList(number + " : Strike : " + strike + ", Ball : " + ball + ", Out: " + out);
     }
 }
 
