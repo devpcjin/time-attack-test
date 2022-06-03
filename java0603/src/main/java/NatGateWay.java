@@ -7,8 +7,4 @@ public class NatGateWay implements GateWay {
     }
 
 
-    @Override
-    public void send(String msg) {
-        System.out.println(msg);
-    }
 }

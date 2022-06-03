@@ -12,6 +12,5 @@ public class Subnet {
     }
 
     public void transfer(String msg) {
-        routeTable.route().send(msg);
     }
 }
