@@ -33,8 +33,8 @@ public class User {
         this.name = name;
         this.age = age;
         this.gender = gender;
-
     }
+
     private Long id;
 
     public void setId(Long id) {
@@ -54,7 +54,6 @@ public class User {
     }
 
     public void update(UserRequestDto requestDto){
-        this.email = requestDto.getEmail();
         this.name = requestDto.getName();
         this.age = requestDto.getAge();
         this.gender = requestDto.getGender();

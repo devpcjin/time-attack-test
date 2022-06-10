@@ -15,11 +15,19 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long search(Long id, UserRequestDto requestDto){
+    public Long search(Long id){
         User user = userRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("아이디가 존재하지 않습니다.")
         );
-        user.search(requestDto);
+        return user.getId();
+    }
+
+    @Transactional
+    public Long update(Long id, UserRequestDto requestDto){
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("아이디가 존재하지 않습니다.")
+        );
+        user.update(requestDto);
         return user.getId();
     }
 }

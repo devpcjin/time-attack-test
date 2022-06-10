@@ -23,8 +23,20 @@ public class UserController {
     }
 
     @GetMapping("/api/read/{id}")
-    public User searchUser(@PathVariable Long id, @RequestBody UserRequestDto requestDto){
-        userService.search(id, requestDto);
+    public Long searchUser(@PathVariable Long id){
+        userService.search(id);
+        return id;
+    }
+
+    @PutMapping("/api/update/{id}")
+    public Long updateUser(@PathVariable Long id, @RequestBody UserRequestDto requestDto){
+        userService.update(id, requestDto);
+        return id;
+    }
+
+    @DeleteMapping("/api/delete/{id}")
+    public Long deleteMemo(@PathVariable Long id){
+        userReposiroty.deleteById(id);
         return id;
     }
 
