@@ -1,14 +1,12 @@
 package com.example.java0610.domain;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.*;
 
 @Setter
 @Getter
@@ -25,10 +23,12 @@ public class User {
     @Column(nullable = false)
     private Integer age;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Integer gender;
+    private Gender gender;
 
-    public User(String email, String name, Integer age, Integer gender){
+    @Builder
+    public User(String email, String name, Integer age, Gender gender){
         this.email = email;
         this.name = name;
         this.age = age;
@@ -50,12 +50,12 @@ public class User {
         this.email = requestDto.getEmail();
         this.name = requestDto.getName();
         this.age = requestDto.getAge();
-        this.gender = requestDto.getGender();
+        this.gender = requestDto.getGender() == 0 ? Gender.M : Gender.F;
     }
 
     public void update(UserRequestDto requestDto){
         this.name = requestDto.getName();
         this.age = requestDto.getAge();
-        this.gender = requestDto.getGender();
+        this.gender = requestDto.getGender()  == 0 ? Gender.M : Gender.F;
     }
 }

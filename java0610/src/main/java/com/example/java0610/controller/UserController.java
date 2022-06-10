@@ -35,8 +35,14 @@ public class UserController {
     }
 
     @DeleteMapping("/api/delete/{id}")
-    public Long deleteMemo(@PathVariable Long id){
+    public Long deleteUser(@PathVariable Long id){
         userReposiroty.deleteById(id);
+        return id;
+    }
+
+    @GetMapping("/api/recommend/{id}")
+    public Long recommendUser(@PathVariable Long id){
+        userService.recommend(id);
         return id;
     }
 

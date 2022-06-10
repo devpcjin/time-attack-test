@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findAllByModifiedAtBetweenOrderByModifiedAtDesc(LocalDateTime start, LocalDateTime end);
+    List<User> findAllByServiceAgeEqualsAndServiceGenderNot(Integer age, Gender gender);
 }
